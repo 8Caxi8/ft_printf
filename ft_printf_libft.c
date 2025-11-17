@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*   ft_printf_libft.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dansimoe <dansimoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 21:41:18 by dansimoe          #+#    #+#             */
-/*   Updated: 2025/11/13 23:45:00 by dansimoe         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:07:30 by dansimoe         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "ft_printf.h"
 
@@ -26,7 +26,34 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)(s + i));
 	return (NULL);
 }
-void	ft_putchar(char c)
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (_ISdigit);
+	return (0);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t			i;
+	unsigned char	*ptr;
+
+	i = -1;
+	ptr = s;
+	while (++i < n)
+		ptr[i] = 0;
+}
+
+void	ft_putstr(const char *s, t_arg *set)
+{
+	if (!s)
+		return ;
+	while (*s)
+		print(*s++, set);
+}
+
+void	ft_putchar(const char c)
 {
 	write(1, &c, 1);
 }
@@ -82,4 +109,49 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (sign * number);
+}
+
+int	calc_len(int n)
+{
+	long	nbr;
+	int		i;
+
+	nbr = n;
+	i = 1;
+	if (nbr < 0)
+	{
+		nbr *= -1;
+		i++;
+	}
+	if (nbr < 10)
+		return (i);
+	else
+		return (i + calc_len(nbr / 10));
+}
+
+char	*ft_itoa(int n)
+{
+	long	nbr;
+	char	*str;
+	int		len;
+	int		i;
+
+	len = calc_len(n);
+	nbr = n;
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	str[len] = '\0';
+	i = 0;
+	if (n < 0)
+		nbr *= -1;
+	while (i < len)
+	{
+		str[len - 1 - i] = (nbr % 10) + '0';
+		i++;
+		nbr /= 10;
+	}
+	if (n < 0)
+		str[0] = '-';
+	return (str);
 }

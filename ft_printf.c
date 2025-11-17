@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
@@ -6,105 +6,101 @@
 /*   By: dansimoe <dansimoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:40:07 by dansimoe          #+#    #+#             */
-/*   Updated: 2025/11/14 00:47:10 by dansimoe         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:35:40 by dansimoe         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "ft_printf.h"
 
-size_t	get_type(char type, t_arg *set)
+void	get_type(t_arg *set)
 {
-	if (type == 'c')
-		return (putchr(set));
-	if (type == 's')
-		return (putstr(set));
-	if (type == 'p')
-		return (putaddr(set));
-	if (type == 'd' || type == 'i')
-		return (putint(set));
-	if (type == 'u')
+	if (*set->format == 'c')
+		return (set->format++, putchr(set));
+	if (*set->format == 's')
+		return (set->format++, putstr(set));
+	if (*set->format == 'p')
+		return (set->format++, putaddr(set));
+	if (*set->format == 'd' || *set->format == 'i')
+		return (set->format++, putint(set));
+	/*if (*type == 'u')
 		return (putuns(set));
-	if (type == 'x' || type == 'X')
+	if (*type == 'x' || *type == 'X')
 		return (puthex(set));
-	if (type == '%')
-		return (putperc(set));
+	if (*type == '%')
+		return (putperc(set)); */
 }
 
-size_t	get_width(char *format, t_arg *set)
+void	get_width(t_arg *set)
 {
-	size_t	i;
-
-	i = 0;
-	if (ft_isdigit(format[i]))
-		set->width = ft_atoi(format);
-	while (ft_isdigit(format[i]))
-		i++;
-	return (i);
+	set->width = ft_atoi(set->format);
+	if (set->width > 0)
+		set->format += ft_strlen(ft_itoa(set->width));
 }
 
-size_t	get_precision(char *format, t_arg *set)
+void	get_precision(t_arg *set)
 {
-	size_t	i;
-
-	i = 0;
-	if (format[i] == '.')
+	set->precision = 0;
+	if (*set->format == '.')
 	{
+		*set->format++;
 		set->flags = set->flags | (1 << 5);
-		set->precision = ft_atoi(format + 1);
-		while (ft_isdigit(format[++i]))
-			;
+		set->precision = ft_atoi(set->format);
+		while (ft_isdigit(*set->format))
+			set->format++;
 	}
-	return (i);
 }
 
-size_t	get_flag(char *format, t_arg *set)
+void	get_flag(t_arg *set)
 {
-	size_t	i;
-	
-	i = -1;
-	while (ft_strchr(FLAG, format[++i]))
+	while (ft_strchr(FLAG, *set->format))
 	{
-		if (format[i] == ' ')
+		if (*set->format == ' ')
 			set->flags = set->flags | (1 << 0);
-		if (format[i] == '+')
+		if (*set->format == '+')
 			set->flags = set->flags | (1 << 1);
-		if (format[i] == '-')
+		if (*set->format == '-')
 			set->flags = set->flags | (1 << 2);
-		if (format[i] == '0')
+		if (*set->format == '0')
 			set->flags = set->flags | (1 << 3);
-		if (format[i] == '#')
+		if (*set->format == '#')
 			set->flags = set->flags | (1 << 4);
+		set->format++;
 	}
-	return (i);
 }
 
-size_t	get_format(char *format, t_arg *set)
+void	get_format(t_arg *set)
 {
-	size_t	i;
-
-	i = 0;
-	i += get_flag(format, set);
-	i += get_width(format + i, set);
-	i += get_precision(format + i, set);
-	if (!ft_strchr(TYPE, format[i]))
-		return (-1);
-	i += get_type(format + i, set);
-	return (i);
+	set->format++;
+	get_flag(set);
+	get_width(set);
+	get_precision(set);
+	printf("<<%i>>", set->flags);
+	printf("<<%lu>>", set->width);
+	printf("<<%lu>>", set->precision);
+	printf("<<%c>>", *set->format);
+	get_type(set);
 }
 
 size_t	ft_printf(const char *format, ...)
 {
 	t_arg	set;
-	int		i;
+	size_t	i;
 
 	va_start(set.args, format);
+	set.format = format;
 	set.flags = 0;
-	i = 0;
-	while (format[i])
+	set.ret = 0;
+	while (*set.format)
 	{
-		if (format[i] == '%')
-			i += get_format(format + i, &set);
+		if (*set.format == '%')
+		{
+			get_format(&set);
+			continue ;
+		}
 		else
-			ft_putchar(format[i++]);
+			print(*set.format, &set);
+		*set.format++;
 	}
+	va_end(set.args);
+	return (set.ret);
 }
