@@ -6,7 +6,7 @@
 /*   By: caxi <caxi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:40:07 by dansimoe          #+#    #+#             */
-/*   Updated: 2025/11/20 12:57:44 by caxi             ###   ########.fr       */
+/*   Updated: 2025/11/20 18:48:22 by caxi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	get_type(t_arg *set)
 	if (*set->format == 's')
 		return (set->format++, putstr(set));
 	if (*set->format == 'p')
-		return (set->format++, set->base = DEC_BASE, putaddr(set));
+		return (set->format++, set->base = HEX_BASE_L, putaddr(set));
 	if (*set->format == 'd' || *set->format == 'i')
 		return (set->format++, set->base = DEC_BASE, putint(set));
 	if (*set->format == 'u')

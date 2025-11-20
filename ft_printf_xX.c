@@ -6,7 +6,7 @@
 /*   By: caxi <caxi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:10:29 by caxi              #+#    #+#             */
-/*   Updated: 2025/11/20 13:10:30 by caxi             ###   ########.fr       */
+/*   Updated: 2025/11/20 19:19:33 by caxi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	puthex(t_arg *set)
 
 	n = va_arg(set->args, unsigned int);
 	len = n_len(n, set->base);
-	if ((set->flags & (1 << 5)) && (set->precision + n == 0))
+	if ((set->flags & (1 << 5)) && (set->precision == 0) &&  (n == 0))
 		len = 0;
 	if (set->precision < len)
 		set->precision = len;
@@ -44,10 +44,8 @@ void	hex_left_align(t_arg *set, size_t len, uintmax_t n)
 
 	i = -1;
 	pref = 0;
-	if (set->flags & (1 << 4))
-		pref = 2;
 	if (set->flags & (1 << 4) && n != 0)
-		starterhex(set);
+		(pref = 2, starterhex(set));
 	while (++i < (set->precision - len))
 		print('0', set);
 	ft_putnbr_base_print(n, set->base, set);

@@ -6,7 +6,7 @@
 /*   By: caxi <caxi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:11:40 by caxi              #+#    #+#             */
-/*   Updated: 2025/11/20 13:11:41 by caxi             ###   ########.fr       */
+/*   Updated: 2025/11/20 18:48:57 by caxi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	putaddr(t_arg *set)
 	ptr = (uintptr_t) va_arg(set->args, void *);
 	if (!ptr)
 		return (printstr("(nil)", set));
-	i = n_len(ptr, HEX_BASE_L) + 2;
+	i = n_len(ptr, set->base) + 2;
 	if (set->flags & (1 << 2))
 	{
 		ft_putstr("0x", set);
-		ft_putnbr_base_print(ptr, HEX_BASE_L, set);
+		ft_putnbr_base_print(ptr, set->base, set);
 		while (++i <= set->width)
 			print(' ', set);
 	}
@@ -33,7 +33,7 @@ void	putaddr(t_arg *set)
 		while (++i <= set->width)
 			print(' ', set);
 		ft_putstr("0x", set);
-		ft_putnbr_base_print(ptr, HEX_BASE_L, set);
+		ft_putnbr_base_print(ptr, set->base, set);
 	}
 }
 

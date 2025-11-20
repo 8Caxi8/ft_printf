@@ -6,25 +6,22 @@
 /*   By: caxi <caxi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:11:16 by caxi              #+#    #+#             */
-/*   Updated: 2025/11/20 13:11:26 by caxi             ###   ########.fr       */
+/*   Updated: 2025/11/20 19:31:52 by caxi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	get_sign(long *n, t_sign *sign, t_arg *set)
+int	get_sign(intmax_t *n, t_sign *s, t_arg *set)
 {
 	if (*n < 0 || (set->flags & (1 << 1)) || (set->flags & (1 << 0)))
 	{
 		if (*n < 0)
-		{
-			*n *= -1;
-			sign->signc = '-';
-		}
+			(*n *= -1, s->signc = '-');
 		else if (set->flags & (1 << 1))
-			sign->signc = '+';
+			s->signc = '+';
 		else if (set->flags & (1 << 0))
-			sign->signc = ' ';
+			s->signc = ' ';
 		return (1);
 	}
 	return (0);
@@ -54,7 +51,7 @@ void	ft_putnbr_base_print(uintmax_t n, char *base, t_arg *set)
 	b_l = ft_strlen(base);
 	if (b_l < 2)
 		return ;
-	if ((set->flags & (1 << 5)) && (set->precision + n == 0))
+	if ((set->flags & (1 << 5)) && (set->precision == 0) && (n == 0))
 		return ;
 	if (n >= b_l)
 		ft_putnbr_base_print(n / b_l, base, set);
