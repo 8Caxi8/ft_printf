@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_helper2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caxi <caxi@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dansimoe <dansimoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:11:16 by caxi              #+#    #+#             */
-/*   Updated: 2025/11/20 19:31:52 by caxi             ###   ########.fr       */
+/*   Updated: 2025/12/01 15:17:22 by dansimoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ int	get_sign(intmax_t *n, t_sign *s, t_arg *set)
 	if (*n < 0 || (set->flags & (1 << 1)) || (set->flags & (1 << 0)))
 	{
 		if (*n < 0)
-			(*n *= -1, s->signc = '-');
+		{
+			*n *= -1;
+			s->signc = '-';
+		}
 		else if (set->flags & (1 << 1))
 			s->signc = '+';
 		else if (set->flags & (1 << 0))

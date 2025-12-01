@@ -37,9 +37,11 @@ bonus: all
 
 clean:
 	$(RM) $(OBJS) $(OBJS_BONUS) *.o
+	$(MAKE) -C libft clean
 
 fclean: clean
 	$(RM) $(NAME)
+	$(MAKE) -C libft fclean
 
 re: fclean all
 

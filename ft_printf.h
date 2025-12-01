@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caxi <caxi@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dansimoe <dansimoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 21:04:38 by dansimoe          #+#    #+#             */
-/*   Updated: 2025/11/20 13:13:29 by caxi             ###   ########.fr       */
+/*   Updated: 2025/12/01 15:37:15 by dansimoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,8 @@
 # define HEX_BASE_U "0123456789ABCDEF"
 # define DEC_BASE "0123456789"
 
-# include <ctype.h>
+# include "libft/libft.h"
 # include <stdarg.h>
-# include <unistd.h>
-# include <stdint.h>
-# include <stdlib.h>
-# include <stdio.h>
 
 typedef struct s_arg
 {
@@ -56,7 +52,7 @@ void	putaddr(t_arg *set);
 void	putint(t_arg *set);
 size_t	n_len(uintmax_t nbr, char *base);
 void	ft_putnbr_base_print(uintmax_t n, char *base, t_arg *set);
-int		get_sign(long *n, t_sign *sign, t_arg *set);
+int		get_sign(intmax_t *n, t_sign *s, t_arg *set);
 void	putuns(t_arg *set);
 void	puthex(t_arg *set);
 void	putstr(t_arg *set);
@@ -67,15 +63,5 @@ void	left_align(t_arg *set, size_t len, t_sign *sign, uintmax_t n);
 void	right_align(t_arg *set, size_t len, t_sign *sign, uintmax_t n);
 void	hex_left_align(t_arg *set, size_t len, uintmax_t n);
 void	hex_right_align(t_arg *set, size_t len, uintmax_t n);
-
-int		ft_atoi(const char *nptr);
-size_t	ft_strlen(const char *str);
-void	*ft_calloc(size_t nmemb, size_t size);
-void	ft_putchar(const char c);
-char	*ft_strchr(const char *s, int c);
-void	ft_bzero(void *s, size_t n);
-int		ft_isdigit(int c);
-char	*ft_itoa(int n);
-int		calc_len(int n);
 
 #endif
