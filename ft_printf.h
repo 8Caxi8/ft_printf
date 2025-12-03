@@ -6,7 +6,7 @@
 /*   By: dansimoe <dansimoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 21:04:38 by dansimoe          #+#    #+#             */
-/*   Updated: 2025/12/01 15:37:15 by dansimoe         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:30:59 by dansimoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_sign
 	char		signc;
 }				t_sign;
 
-size_t	ft_printf(const char *format, ...);
+int		ft_printf(const char *format, ...);
 void	get_flag(t_arg *set);
 void	get_width_precision(t_arg *set);
 void	get_type(t_arg *set);

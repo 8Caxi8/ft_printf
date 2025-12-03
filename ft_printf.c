@@ -6,7 +6,7 @@
 /*   By: dansimoe <dansimoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 15:25:32 by dansimoe          #+#    #+#             */
-/*   Updated: 2025/12/01 15:25:35 by dansimoe         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:30:47 by dansimoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	get_flag(t_arg *set)
 	}
 }
 
-size_t	ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
 	t_arg	set;
 
